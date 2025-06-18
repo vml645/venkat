@@ -114,7 +114,7 @@ export function HeroSection() {
                                     <Link href="https://datafruit.dev" target="_blank" rel="noopener noreferrer" className="text-lychee-600 dark:text-lychee-300 hover:underline -ml-1">
                                         datafruit
                                     </Link>
-                                </span>, which is redefining data engineering to be declarative, idomatic,
+                                </span>, which is redefining data engineering to be declarative, idiomatic,
                                 and accessible to ai agents. We are backed by <span className="inline-flex items-baseline">
                                     <Image
                                         src="/ycombinator-tile.svg"
