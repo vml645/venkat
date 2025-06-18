@@ -8,8 +8,7 @@ import { List, ListItem } from '@/components/ui/list/list'
 import Ruler from '@/components/ui/ruler/ruler'
 import { cn } from '@/lib/utils/utils'
 import { monoFont } from '@/styles/fonts/fonts'
-import CodeBlock from '@/components/blocks/code-block/code-block'
-import Math from '@/components/ui/math/math'
+
 
 // Helper function to process text and wrap math expressions
 const processMathInText = (text: string): (string | React.ReactElement)[] => {
