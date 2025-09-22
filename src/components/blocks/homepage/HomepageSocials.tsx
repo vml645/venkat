@@ -20,7 +20,7 @@ export function HomepageSocials() {
                         href="mailto:venkat@datafruit.dev" 
                         className="text-lychee-600 hover:underline dark:text-lychee-400"
                     >
-                        venkat@datafruit.dev
+                        venkat[at]datafruit[dot]dev
                     </Link>
                 </Text>
             </div>
