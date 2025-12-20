@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation'
 const navLinks = [
   { href: '/about', label: 'about', external: false },
   { href: '/projects', label: 'projects', external: false },
-  { href: '/resume', label: 'resume', external: false },
   { href: 'https://www.ycombinator.com/companies/datafruit', label: 'datafruit', external: true },
   { href: '/social', label: 'social', external: false },
 ]
