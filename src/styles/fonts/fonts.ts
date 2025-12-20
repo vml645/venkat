@@ -1,4 +1,4 @@
-import { IBM_Plex_Mono, Geist, Fira_Code } from 'next/font/google'
+import { IBM_Plex_Mono, Crimson_Pro, Fira_Code } from 'next/font/google'
 
 export const monoFont = IBM_Plex_Mono({
     subsets: ['latin'],
@@ -7,12 +7,14 @@ export const monoFont = IBM_Plex_Mono({
     display: 'swap',
 })
 
-export const sansFont = Geist({
+export const serifFont = Crimson_Pro({
     subsets: ['latin'],
     weight: ['400', '500', '600', '700'],
-    variable: '--font-sans',
+    variable: '--font-serif',
     display: 'swap',
 })
+
+export const sansFont = serifFont
 
 export const codeFont = Fira_Code({
     subsets: ['latin'],

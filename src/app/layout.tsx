@@ -3,11 +3,11 @@ import type { Metadata } from 'next'
 import { ThemeProvider } from '@/components/ui/theme/theme-provider'
 import { cn } from '@/lib/utils/utils'
 import { Analytics } from "@vercel/analytics/react"
-import { monoFont, sansFont, codeFont } from '@/styles/fonts/fonts'
+import { monoFont, serifFont, codeFont } from '@/styles/fonts/fonts'
 
 export const metadata: Metadata = {
-  title: 'venkat',
-  description: 'a site where I document my ML learning journey & share my thoughts',
+  title: 'Venkat Arun',
+  description: 'Co-founder at Datafruit. Engineer and builder.',
 }
 
 export default function RootLayout({
@@ -19,25 +19,22 @@ export default function RootLayout({
     <html lang="en" className={cn(
       "h-full",
       monoFont.variable,
-      sansFont.variable,
+      serifFont.variable,
       codeFont.variable
     )} suppressHydrationWarning>
       <body className={cn(
-        "h-full bg-background transition-colors duration-300"
+        "h-full bg-background transition-colors duration-300",
+        serifFont.className
       )}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex flex-col min-h-screen relative">
-            <div className="flex-1 flex flex-col">
-              <main className="container mx-auto mt-4 px-4 flex-1">
-                {children}
-                <Analytics />
-              </main>
-            </div>
+          <div className="min-h-screen">
+            {children}
+            <Analytics />
           </div>
         </ThemeProvider>
       </body>

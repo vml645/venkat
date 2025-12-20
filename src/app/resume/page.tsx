@@ -1,79 +1,91 @@
-"use client"
-
-import { monoFont } from '@/styles/fonts/fonts'
-import { cn } from '@/lib/utils/utils'
-import TextHeading from '@/components/ui/text-heading/text-heading'
-import Text from '@/components/ui/text/text'
-import { StackVertical } from '@/components/layout/layout-stack/layout-stack'
-import BaseContainer from '@/components/layout/container/base-container'
-import { Navbar } from '@/components/ui/navbar/Navbar'
-import { ThemeToggle } from '@/components/ui/theme/theme-toggle'
-
+import Link from 'next/link'
+import { SidebarLayout } from "@/components/layout/SidebarLayout"
 
 export default function ResumePage() {
   return (
-    <>
-      <BaseContainer size="md" paddingX="md" paddingY="lg">
-        <div className="flex justify-between items-center mb-8">
-          <Navbar />
-          <ThemeToggle />
-        </div>
-        <section className="mx-auto max-w-3xl px-4 py-6">
-      <header className="mb-10">
-        <TextHeading as="h1" className="text-3xl sm:text-4xl font-extrabold mb-2">
-          Venkat Lakshman
-        </TextHeading>
-        <Text className="text-lychee-600 dark:text-lychee-300 font-medium">
-          Data engineer with a background in statistics &amp; CS
-        </Text>
-        <div className={cn('mt-4 flex flex-col gap-1', monoFont.className)}>
-          <a href="mailto:venkat@example.com" className="hover:text-lychee-600">venkat@example.com</a>
-          <a href="https://datafruit.dev" target="_blank" rel="noopener noreferrer" className="hover:text-lychee-600">datafruit.dev</a>
-          <a href="https://github.com/venkat" target="_blank" rel="noopener noreferrer" className="hover:text-lychee-600">github.com/venkat</a>
-        </div>
-      </header>
-
-      <StackVertical gap="lg">
+    <SidebarLayout>
+      <h1 className="text-lg font-medium mb-2">Resume</h1>
+      <div className="space-y-6 text-[15px]">
         {/* Education */}
         <section>
-          <TextHeading as="h2" className="text-lychee-600 font-semibold mb-2">Education</TextHeading>
-          <ul className="space-y-4">
-            <li>
-              <Text className="font-semibold">B.A. in Computer Science, University of California, Berkeley</Text>
-              <Text className="text-muted-foreground">Aug 2020 – May 2024 (on leave)</Text>
-            </li>
-          </ul>
+          <h2 className="text-base font-semibold mb-2 border-b border-border pb-1">Education</h2>
+          <div>
+            <div className="flex justify-between">
+              <p className="font-medium">University of California, Berkeley</p>
+              <p className="text-muted-foreground">Berkeley, CA</p>
+            </div>
+            <div className="flex justify-between">
+              <p>B.A. in <em>Statistics & Computer Science</em></p>
+              <p className="text-muted-foreground text-sm">May 2027</p>
+            </div>
+            <ul className="list-disc pl-5 mt-2 text-muted-foreground">
+              <li>Relevant Coursework: CS169: Software Engineering, CS188: Artificial Intelligence, CS61B: Data Structures, DATA 100: Techniques of Data Science, STAT134: Probability, CS70: Discrete Math & Probability Theory, MATH 54: Linear Algebra & Differential Equations</li>
+            </ul>
+          </div>
         </section>
 
         {/* Experience */}
         <section>
-          <TextHeading as="h2" className="text-lychee-600 font-semibold mb-2">Experience</TextHeading>
-          <ul className="space-y-6">
+          <h2 className="text-base font-semibold mb-2 border-b border-border pb-1">Experience</h2>
+          <ul className="space-y-5">
             <li>
-              <Text className="font-semibold">Co-Founder, Datafruit – San Francisco, CA</Text>
-              <Text className="text-muted-foreground">Jan 2021 – Present</Text>
-              <ul className="list-disc pl-5 space-y-1">
-                <li><Text>Building declarative data infrastructure to make data pipelines more reliable and accessible, backed by Y&nbsp;Combinator.</Text></li>
-                <li><Text>Led development of core platform architecture and data orchestration systems serving 100+ TB of processed data.</Text></li>
-                <li><Text>Established engineering best practices and built a high-performing remote engineering team.</Text></li>
+              <div className="flex justify-between">
+                <p className="font-medium">Cofounder & CEO</p>
+                <p className="text-muted-foreground text-sm">May 2024 – Present</p>
+              </div>
+              <p>Datafruit (YC S25)</p>
+              <ul className="list-disc pl-5 space-y-1 mt-2 text-muted-foreground">
+                <li>Built production AI agents for DevOps workflows (incident response, infra provisioning) grounded in logs, runbooks, and infra state.</li>
+                <li>Designed ingestion pipelines for runbooks/tickets/telemetry along with evals and guardrails to improve correctness and reduce hallucinated changes.</li>
+                <li>Developed customer-facing product surfaces (CLI / API / web) and integrated with common infrastructure tools (Terraform/Kubernetes/logging) to deploy into real environments.</li>
+                <li>Backed by Y Combinator and top SV firms, 120k ARR</li>
               </ul>
             </li>
             <li>
-              <Text className="font-semibold">Software Engineering Intern, CareHealth.ai – Remote</Text>
-              <Text className="text-muted-foreground">Jan 2023 – May 2023</Text>
-              <ul className="list-disc pl-5 space-y-1">
-                <li><Text>Developed multiple RESTful APIs, improving patient data collection and storage efficiency by ≈30% within CareHealth’s API server.</Text></li>
-                <li><Text>Implemented a HIPAA-compliant data pipeline with Apache Spark to process 100 000+ patient records daily.</Text></li>
-                <li><Text>Designed database schema and optimized SQL queries for faster data retrieval and processing.</Text></li>
+              <div className="flex justify-between">
+                <p className="font-medium">Software Engineering Intern</p>
+                <p className="text-muted-foreground text-sm">Jan 2023 – May 2023</p>
+              </div>
+              <p>CareHealth.ai</p>
+              <ul className="list-disc pl-5 space-y-1 mt-2 text-muted-foreground">
+                <li>Developed multiple RESTful APIs, resulting in a ≈30% improvement in patient data collection and storage efficiency.</li>
+                <li>Worked on implementation of a HIPAA-compliant data pipeline using Apache Spark.</li>
+                <li>Implemented database schema designs and optimized SQL queries to improve data retrieval and processing.</li>
               </ul>
             </li>
             <li>
-              <Text className="font-semibold">Data Science Intern, Carpl.ai – Remote</Text>
-              <Text className="text-muted-foreground">May 2022 – Aug 2022</Text>
-              <ul className="list-disc pl-5 space-y-1">
-                <li><Text>Deployed AI-driven workflows across 50+ hospitals, significantly reducing patient wait times.</Text></li>
-                <li><Text>Built Python data-processing systems to analyze 100 000+ medical images, implementing efficient large-scale storage and retrieval.</Text></li>
-                <li><Text>Utilized proprietary AI testing & monitoring platform to perform deep clinical and statistical analysis.</Text></li>
+              <div className="flex justify-between">
+                <p className="font-medium">Data Science Intern</p>
+                <p className="text-muted-foreground text-sm">May 2022 – Aug 2022</p>
+              </div>
+              <p>Carpl.ai</p>
+              <ul className="list-disc pl-5 space-y-1 mt-2 text-muted-foreground">
+                <li>Deployed AI-driven workflows across 50+ hospitals, reducing wait times greatly.</li>
+                <li>Built data processing systems using Python to analyze datasets of 100,000+ medical images, implementing efficient database operations for storing and retrieving large-scale data.</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        {/* Projects */}
+        <section>
+          <h2 className="text-base font-semibold mb-2 border-b border-border pb-1">Projects</h2>
+          <ul className="space-y-5">
+            <li>
+              <p><span className="font-medium">Lychee</span> | <em>Typescript, Rust</em></p>
+              <ul className="list-disc pl-5 space-y-1 mt-2 text-muted-foreground">
+                <li>Built a multi-agent AI coding system that lets users orchestrate multiple Claude Code instances using isolated Git worktrees to plan, modify, and validate code changes in parallel.</li>
+                <li>Shipped an agent that explains AI-generated code diffs to users, improving review speed and confidence in automated changes.</li>
+                <li>Designed and built the UI/UX for multi-agent code workflows, making complex parallel edits, diff explanations, and validation steps easy for users to review and approve.</li>
+              </ul>
+            </li>
+            <li>
+              <p><span className="font-medium">Achilles</span> | <em>Python, C++</em></p>
+              <ul className="list-disc pl-5 space-y-1 mt-2 text-muted-foreground">
+                <li>Created a Python optimization tool that uses profiling and LLM's to identify and prioritize the slowest code segments, and generate high-performance C++ patches.</li>
+                <li>Awarded finalist status at the PearVC x Anthropic Hackathon.</li>
+                <li>Agents use multiple optimization strategies, benchmark performance, and select the most effective optimizations.</li>
+                <li>Optimized LLM suggestions using JSON-schema-defined constraints and integrated unit tests, reducing erroneous code recommendations and improving reliability.</li>
               </ul>
             </li>
           </ul>
@@ -81,25 +93,23 @@ export default function ResumePage() {
 
         {/* Skills */}
         <section>
-          <TextHeading as="h2" className="text-lychee-600 font-semibold mb-2">Technical Skills</TextHeading>
-          <div className="space-y-2">
-            <Text>
-              <span className="font-semibold">Languages: </span>
-              Java, Python, Ruby, Rails, SQL, Swift, C++, JavaScript, HTML, CSS
-            </Text>
-            <Text>
-              <span className="font-semibold">Frameworks & Libraries: </span>
-              React, Node, Flask, NumPy, Scikit-Learn, Pandas, PyTorch, Matplotlib, REST
-            </Text>
-            <Text>
-              <span className="font-semibold">Tools: </span>
-              git, Spark, Terraform, Docker, AWS (Lambda, DynamoDB, S3), NoSQL, bash, unix
-            </Text>
+          <h2 className="text-base font-semibold mb-2 border-b border-border pb-1">Technical Skills</h2>
+          <div className="space-y-1 text-muted-foreground">
+            <p>
+              <span className="text-foreground font-medium">Languages: </span>
+              Java, Python, Ruby, Rails, SQL, Swift, Go, JavaScript, HTML, CSS
+            </p>
+            <p>
+              <span className="text-foreground font-medium">Frameworks & Libraries: </span>
+              React, Flask, NumPy, Scikit-Learn, Pandas, PyTorch, Seaborn, Matplotlib, REST
+            </p>
+            <p>
+              <span className="text-foreground font-medium">Tools: </span>
+              git, Spark, Terraform, Docker, Kubernetes, NoSQL, bash, unix
+            </p>
           </div>
         </section>
-      </StackVertical>
-        </section>
-      </BaseContainer>
-    </>
+      </div>
+    </SidebarLayout>
   )
 }

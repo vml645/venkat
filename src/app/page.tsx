@@ -1,9 +1,5 @@
-import Homepage from 'app/homepage/page'
+import { redirect } from 'next/navigation'
 
 export default function Home() {
-  return (
-    <>
-        <Homepage />
-    </>
-  )
+  redirect('/about')
 }
