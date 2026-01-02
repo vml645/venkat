@@ -41,7 +41,7 @@ export default function AboutPage() {
 
         <p>
           You can reach me at{' '}
-          <Link href="mailto:mmiv645@gmail.com">
+          <Link href="mailto:mmiv645[at]gmail[dot]com">
             mmiv645@gmail.com
           </Link>
           .
