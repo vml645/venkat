@@ -1,9 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { ThemeProvider } from '@/components/ui/theme/theme-provider'
-import { cn } from '@/lib/utils/utils'
-import { Analytics } from "@vercel/analytics/react"
-import { monoFont, serifFont, codeFont } from '@/styles/fonts/fonts'
+import { serifFont } from '@/styles/fonts/fonts'
 
 export const metadata: Metadata = {
   title: 'Venkat Arun',
@@ -16,29 +13,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={cn(
-      "h-full",
-      monoFont.variable,
-      serifFont.variable,
-      codeFont.variable
-    )} suppressHydrationWarning>
-      <body className={cn(
-        "h-full bg-background transition-colors duration-300",
-        serifFont.className
-      )}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="min-h-screen">
-            {children}
-            <Analytics />
-          </div>
-        </ThemeProvider>
+    <html lang="en" className={`h-full ${serifFont.variable}`}>
+      <body className={`h-full bg-background antialiased ${serifFont.className}`}>
+        <div className="min-h-screen">
+          {children}
+        </div>
       </body>
     </html>
   )
 }
-

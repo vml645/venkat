@@ -1,7 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { ExternalLink } from 'lucide-react'
+
+type NavPage = 'about' | 'projects' | 'social'
 
 const navLinks = [
   { href: '/about', label: 'about', external: false },
@@ -12,11 +14,14 @@ const navLinks = [
 
 interface SidebarLayoutProps {
   children: React.ReactNode
+  currentPage: NavPage
 }
 
-export function SidebarLayout({ children }: SidebarLayoutProps) {
-  const pathname = usePathname()
+function isActive(href: string, currentPage: NavPage) {
+  return href === `/${currentPage}`
+}
 
+export function SidebarLayout({ children, currentPage }: SidebarLayoutProps) {
   return (
     <div className="min-h-screen flex">
       {/* Mobile Header */}
@@ -32,18 +37,19 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="no-underline hover:opacity-100 transition-colors text-muted-foreground hover:text-foreground"
+                className="no-underline hover:opacity-100 text-black/45 hover:text-black/70 inline-flex items-center gap-1"
               >
                 {link.label}
+                <ExternalLink aria-hidden="true" strokeWidth={1.5} className="h-3 w-3 shrink-0" />
               </a>
             ) : (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`no-underline hover:opacity-100 transition-colors ${
-                  pathname === link.href || (pathname === '/' && link.href === '/about')
-                    ? 'text-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
+                className={`no-underline hover:opacity-100 ${
+                  isActive(link.href, currentPage)
+                    ? 'text-foreground font-semibold'
+                    : 'text-black/45 hover:text-black/70'
                 }`}
               >
                 {link.label}
@@ -68,18 +74,19 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="no-underline hover:opacity-100 transition-colors text-[15px] leading-relaxed text-muted-foreground hover:text-foreground"
+                  className="no-underline hover:opacity-100 text-[15px] leading-relaxed text-black/45 hover:text-black/70 inline-flex items-center justify-end gap-1"
                 >
                   {link.label}
+                  <ExternalLink aria-hidden="true" strokeWidth={1.5} className="h-3 w-3 shrink-0" />
                 </a>
               ) : (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`no-underline hover:opacity-100 transition-colors text-[15px] leading-relaxed ${
-                    pathname === link.href || (pathname === '/' && link.href === '/about')
-                      ? 'text-foreground'
-                      : 'text-muted-foreground hover:text-foreground'
+                  className={`no-underline hover:opacity-100 text-[15px] leading-relaxed ${
+                    isActive(link.href, currentPage)
+                      ? 'text-foreground font-semibold'
+                      : 'text-black/45 hover:text-black/70'
                   }`}
                 >
                   {link.label}
