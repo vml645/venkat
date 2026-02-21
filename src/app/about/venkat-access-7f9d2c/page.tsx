@@ -61,7 +61,7 @@ export default async function HiddenTabPage({ searchParams }: HiddenTabPageProps
       <div className="space-y-5 text-[15px] leading-relaxed text-foreground">
         {!passwordIsConfigured() && (
           <p>
-            Hidden tab is disabled. Set <code>HIDDEN_TAB_PASSWORD</code> in your environment to turn it on.
+            Hidden tab is disabled. Set <code>htp</code> in your environment to turn it on.
           </p>
         )}
 

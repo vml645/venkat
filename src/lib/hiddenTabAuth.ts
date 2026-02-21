@@ -16,7 +16,10 @@ function timingSafeEqual(left: string, right: string) {
 }
 
 function configuredPassword() {
-  const value = process.env.HIDDEN_TAB_PASSWORD?.trim()
+  const value =
+    process.env.HTP?.trim() ||
+    process.env.htp?.trim() ||
+    process.env.HIDDEN_TAB_PASSWORD?.trim()
   return value && value.length > 0 ? value : null
 }
 
