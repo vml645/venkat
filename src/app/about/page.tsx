@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { SidebarLayout } from "@/components/layout/SidebarLayout"
 import { useStagedAnimation } from '@/components/animation/useStagedAnimation'
+import { HIDDEN_TAB_PATH } from '@/lib/hiddenTabAuth'
 
 /* ─────────────────────────────────────────────────────────
  * ANIMATION STORYBOARD
@@ -32,7 +33,14 @@ export default function AboutPage() {
       id: 'intro',
       content: (
         <p>
-          Hi, I&apos;m Venkat, co-founder and CEO of Datafruit.
+          Hi, I&apos;m{' '}
+          <Link
+            href={HIDDEN_TAB_PATH}
+            className="text-inherit no-underline hover:no-underline focus-visible:outline-none focus-visible:ring-0 cursor-text"
+          >
+            Venkat
+          </Link>
+          , co-founder and CEO of Datafruit.
         </p>
       ),
     },

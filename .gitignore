@@ -1,6 +1,10 @@
 node_modules
 .next
 .env
+.env.local
+.env.*.local
+.venkat-private-state.json
 next-env.d.ts
 yarn-error.log
 yarn.lock
+*.tsbuildinfo
