@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { SidebarLayout } from "@/components/layout/SidebarLayout"
 import { useStagedAnimation } from '@/components/animation/useStagedAnimation'
-import { HIDDEN_TAB_PATH } from '@/lib/hiddenTabAuth'
+import { HIDDEN_TAB_PATH } from '@/lib/hiddenTabConfig'
 
 /* ─────────────────────────────────────────────────────────
  * ANIMATION STORYBOARD
