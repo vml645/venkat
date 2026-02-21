@@ -21,7 +21,7 @@ export async function GET() {
   const store = await readPrivateHabitStore()
   return NextResponse.json(store, {
     headers: {
-      'Cache-Control': 'no-store',
+      'Cache-Control': 'private, max-age=30, stale-while-revalidate=300',
     },
   })
 }

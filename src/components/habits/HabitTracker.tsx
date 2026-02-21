@@ -31,6 +31,7 @@ const MOTION = {
 
 const SYNC_ENDPOINT = '/api/vx7a9d2'
 const SAVE_DEBOUNCE_MS = 350
+const LOCAL_CACHE_KEY = 'venkat:hidden:habit-store:v1'
 
 const FITNESS_HABIT_ID = 'fitness'
 const FITNESS_STRETCH_ITEM = 'Daily Stretching'
@@ -86,6 +87,7 @@ export function HabitTracker() {
   const [store, setStore] = useState<HabitStore>(() => createDefaultStore())
   const [isLoaded, setIsLoaded] = useState(false)
   const [openCardId, setOpenCardId] = useState<string | null>(null)
+  const [lastSyncedPayload, setLastSyncedPayload] = useState<string | null>(null)
 
   const todayKey = useMemo(() => toDateKey(new Date()), [])
 
@@ -93,10 +95,21 @@ export function HabitTracker() {
     let mounted = true
 
     async function loadStore() {
+      const localRaw = window.localStorage.getItem(LOCAL_CACHE_KEY)
+      if (localRaw) {
+        try {
+          const localStore = normalizeHabitStore(JSON.parse(localRaw))
+          if (mounted) {
+            setStore(localStore)
+            setLastSyncedPayload(JSON.stringify(localStore))
+            setIsLoaded(true)
+          }
+        } catch {}
+      }
+
       try {
         const response = await fetch(SYNC_ENDPOINT, {
           method: 'GET',
-          cache: 'no-store',
         })
 
         if (!response.ok) {
@@ -108,13 +121,21 @@ export function HabitTracker() {
           return
         }
 
-        setStore(normalizeHabitStore(payload))
+        const normalized = normalizeHabitStore(payload)
+        const normalizedPayload = JSON.stringify(normalized)
+        setStore(normalized)
+        setLastSyncedPayload(normalizedPayload)
+        window.localStorage.setItem(LOCAL_CACHE_KEY, normalizedPayload)
       } catch {
         if (!mounted) {
           return
         }
 
-        setStore(createDefaultStore())
+        const fallback = createDefaultStore()
+        const fallbackPayload = JSON.stringify(fallback)
+        setStore(fallback)
+        setLastSyncedPayload(fallbackPayload)
+        window.localStorage.setItem(LOCAL_CACHE_KEY, fallbackPayload)
       } finally {
         if (mounted) {
           setIsLoaded(true)
@@ -134,6 +155,11 @@ export function HabitTracker() {
       return
     }
 
+    const serialized = JSON.stringify(store)
+    if (serialized === lastSyncedPayload) {
+      return
+    }
+
     const timer = window.setTimeout(() => {
       void (async () => {
         try {
@@ -142,13 +168,14 @@ export function HabitTracker() {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(store),
-            cache: 'no-store',
+            body: serialized,
           })
 
           if (!response.ok) {
             throw new Error('Failed to save hidden tracker store')
           }
+          setLastSyncedPayload(serialized)
+          window.localStorage.setItem(LOCAL_CACHE_KEY, serialized)
         } catch {}
       })()
     }, SAVE_DEBOUNCE_MS)
@@ -156,7 +183,7 @@ export function HabitTracker() {
     return () => {
       window.clearTimeout(timer)
     }
-  }, [isLoaded, store])
+  }, [isLoaded, lastSyncedPayload, store])
 
   function toggleChecklist(habitId: string, item: string) {
     setStore((previous) => {
