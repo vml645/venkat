@@ -1,8 +1,6 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { ArrowTurnForwardIcon } from '@hugeicons/core-free-icons'
 import { useStagedAnimation } from '@/components/animation/useStagedAnimation'
 import {
   HABITS,
@@ -59,7 +57,7 @@ function isTypingTarget(target: EventTarget | null) {
 
 function Keycap({ children }: { children: React.ReactNode }) {
   return (
-    <kbd className="mx-0.5 inline-flex min-w-[1.4rem] items-center justify-center rounded-[0.3rem] border border-black/25 bg-[linear-gradient(180deg,#fffefb_0%,#f2efe6_55%,#e6e1d6_100%)] px-2 py-1 text-[10px] leading-none font-normal [font-family:inherit] text-black/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.98),inset_0_-2px_0_rgba(72,61,44,0.18),0_1px_0_rgba(0,0,0,0.14),0_2px_4px_rgba(0,0,0,0.12)]">
+    <kbd className="mx-0.5 inline-flex min-w-[1.4rem] items-center justify-center rounded-[0.3rem] border border-black/25 bg-[linear-gradient(180deg,#fcfcfc_0%,#f5f5f5_55%,#eeeeee_100%)] px-2 py-1 text-[10px] leading-none font-normal [font-family:inherit] text-black/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.98),inset_0_-2px_0_rgba(0,0,0,0.14),0_1px_0_rgba(0,0,0,0.14),0_2px_4px_rgba(0,0,0,0.12)]">
       {children}
     </kbd>
   )
@@ -478,7 +476,7 @@ export function HabitTracker() {
       }}
       className="rounded-lg focus:outline-none"
     >
-      <ul className="space-y-0 max-w-[34rem]">
+      <ul className="space-y-1 max-w-[34rem]">
         {HABITS.map((habit, index) => {
           const habitState = store[habit.id] ?? { completedDates: [], checklistByDate: {} }
           const checkedToday = new Set(habitState.checklistByDate[todayKey] ?? [])
@@ -510,8 +508,8 @@ export function HabitTracker() {
                 }}
                 aria-expanded={isOpen}
                 className={`w-full text-left px-2 py-1.5 rounded-lg transition-colors ${
-                  isOpen ? 'bg-[rgb(243,244,239)]' : 'hover:bg-[rgb(243,244,239)]'
-                } ${isTrackerFocused && isSelectedHabit ? 'bg-[rgb(243,244,239)]' : ''}`}
+                  isOpen ? 'bg-black/[0.04]' : 'hover:bg-black/[0.04]'
+                } ${isTrackerFocused && isSelectedHabit ? 'bg-black/[0.04]' : ''}`}
                 onFocus={() => setSelectedHabitIndex(index)}
                 onMouseDown={() => {
                   if (trackerRef.current) {
@@ -531,7 +529,11 @@ export function HabitTracker() {
 
               <div
                 className={`overflow-hidden ${
-                  isOpen ? 'max-h-[40rem] opacity-100 px-2 pb-2' : 'max-h-0 opacity-0 px-2 pb-0 pointer-events-none'
+                  isOpen
+                    ? 'max-h-[40rem] opacity-100 translate-y-0 px-2 pb-2'
+                    : 'max-h-0 opacity-0 -translate-y-1 px-2 pb-0 pointer-events-none'
+                } transition-[max-height,opacity,transform,padding] ease-[cubic-bezier(0.22,1,0.36,1.08)] ${
+                  reducedMotion ? 'duration-0' : 'duration-[420ms]'
                 }`}
               >
                 <div className="pt-1.5">
@@ -575,7 +577,7 @@ export function HabitTracker() {
                       selectedChecklistIndex < habit.checklist.length &&
                       checklistHighlightRect ? (
                         <div
-                          className="pointer-events-none absolute left-0 right-0 !mt-0 rounded-md bg-black/[0.04] transition-all duration-200 ease-out"
+                          className="pointer-events-none absolute left-0 -right-2 !mt-0 rounded-md bg-black/[0.04] transition-all duration-200 ease-out"
                           style={{
                             top: checklistHighlightRect.top,
                             height: checklistHighlightRect.height,
@@ -584,8 +586,8 @@ export function HabitTracker() {
                       ) : null}
                     </ul>
 
-                    <div className="mt-3 flex items-center gap-3">
-                      <div className="group relative inline-flex items-center">
+                    <div className="mt-3">
+                      <div className="inline-flex flex-col items-start gap-2">
                         <button
                           type="button"
                           disabled={!readyToCheckIn || completedToday}
@@ -606,7 +608,7 @@ export function HabitTracker() {
                           {completedToday ? 'Done Today' : 'Check In'}
                         </button>
                         {!readyToCheckIn && !completedToday ? (
-                          <p className="absolute left-full ml-2 whitespace-nowrap text-sm text-black/45 opacity-0 transition-opacity group-hover:opacity-100">
+                          <p className="text-xs leading-5 text-black/55">
                             {checkInHint(habit.id, checkedToday, todayKey)}
                           </p>
                         ) : null}
@@ -619,15 +621,12 @@ export function HabitTracker() {
           )
         })}
       </ul>
-      <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-black/45">
+      <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] text-black/45">
         <span className="inline-flex items-center gap-1">
           <Keycap>↑</Keycap>/<Keycap>↓</Keycap> navigate
         </span>
         <span className="inline-flex items-center gap-1">
-          <Keycap>
-            <HugeiconsIcon icon={ArrowTurnForwardIcon} size={11} strokeWidth={2} />
-          </Keycap>
-          open/toggle
+          <Keycap>Enter</Keycap> open/toggle
         </span>
         <span className="inline-flex items-center gap-1">
           <Keycap>Esc</Keycap> back
