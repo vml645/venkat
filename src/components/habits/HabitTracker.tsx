@@ -476,7 +476,7 @@ export function HabitTracker() {
       }}
       className="rounded-lg focus:outline-none"
     >
-      <ul className="space-y-1 max-w-[34rem]">
+      <ul className="space-y-px max-w-[34rem]">
         {HABITS.map((habit, index) => {
           const habitState = store[habit.id] ?? { completedDates: [], checklistByDate: {} }
           const checkedToday = new Set(habitState.checklistByDate[todayKey] ?? [])
