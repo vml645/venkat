@@ -577,7 +577,7 @@ export function HabitTracker() {
                       selectedChecklistIndex < habit.checklist.length &&
                       checklistHighlightRect ? (
                         <div
-                          className="pointer-events-none absolute left-0 -right-2 !mt-0 rounded-md bg-black/[0.04] transition-all duration-200 ease-out"
+                          className="pointer-events-none absolute -left-2 -right-2 !mt-0 rounded-lg bg-black/[0.04] transition-all duration-200 ease-out"
                           style={{
                             top: checklistHighlightRect.top,
                             height: checklistHighlightRect.height,
@@ -621,7 +621,12 @@ export function HabitTracker() {
           )
         })}
       </ul>
-      <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] text-black/45">
+      <div
+        className={`mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] text-black/45 transition-all duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1.08)] ${
+          stage >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
+        } ${reducedMotion ? 'duration-0' : ''}`}
+        style={reducedMotion ? undefined : { transitionDelay: `${MOTION.cardStagger}ms` }}
+      >
         <span className="inline-flex items-center gap-1">
           <Keycap>↑</Keycap>/<Keycap>↓</Keycap> navigate
         </span>
