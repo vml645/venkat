@@ -420,11 +420,11 @@ export function HabitTracker() {
         }
         return
       case 'Escape':
-        if (!isOpen) {
+        if (!openCardId) {
           return
         }
         event.preventDefault()
-        closeHabitCard(habit.id)
+        closeHabitCard(openCardId)
         return
       case 'Enter':
         event.preventDefault()
