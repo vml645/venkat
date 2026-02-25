@@ -528,16 +528,17 @@ export function HabitTracker() {
               </button>
 
               <div
-                className={`overflow-hidden ${
+                className={`grid ${
                   isOpen
-                    ? 'max-h-[40rem] opacity-100 translate-y-0 px-2 pb-2'
-                    : 'max-h-0 opacity-0 -translate-y-1 px-2 pb-0 pointer-events-none'
-                } transition-[max-height,opacity,transform,padding] ease-[cubic-bezier(0.22,1,0.36,1.08)] ${
+                    ? 'grid-rows-[1fr] opacity-100 translate-y-0'
+                    : 'grid-rows-[0fr] opacity-0 -translate-y-1 pointer-events-none'
+                } transition-[grid-template-rows,opacity,transform] ease-[cubic-bezier(0.22,1,0.36,1.08)] ${
                   reducedMotion ? 'duration-0' : 'duration-[420ms]'
                 }`}
               >
-                <div className="pt-1.5">
-                  <div className="min-w-0">
+                <div className="min-h-0 overflow-hidden px-2 pb-2">
+                  <div className="pt-1.5">
+                    <div className="min-w-0">
                     <ul
                       ref={(element) => {
                         checklistListRefs.current[habit.id] = element
@@ -615,6 +616,7 @@ export function HabitTracker() {
                       </div>
                     </div>
                   </div>
+                </div>
                 </div>
               </div>
             </li>
