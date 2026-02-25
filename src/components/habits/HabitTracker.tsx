@@ -395,7 +395,6 @@ export function HabitTracker() {
             return
           }
 
-          clearChecklistSelection(habit.id)
           setSelectedHabitIndex((currentHabit) => wrapIndex(currentHabit + 1, HABITS.length))
         } else {
           setSelectedHabitIndex((current) => wrapIndex(current + 1, HABITS.length))
@@ -405,10 +404,7 @@ export function HabitTracker() {
         event.preventDefault()
         if (isChecklistContext) {
           if (!hasChecklistSelection) {
-            setSelectedChecklistIndexByHabit((previous) => ({
-              ...previous,
-              [habit.id]: checkInSelectionIndex,
-            }))
+            setSelectedHabitIndex((currentHabit) => wrapIndex(currentHabit - 1, HABITS.length))
             return
           }
 
@@ -430,11 +426,7 @@ export function HabitTracker() {
           return
         }
         event.preventDefault()
-        if (selectedChecklistIndexByHabit[habit.id] !== undefined) {
-          clearChecklistSelection(habit.id)
-        } else {
-          closeHabitCard(habit.id)
-        }
+        closeHabitCard(habit.id)
         return
       case 'Enter':
         event.preventDefault()
@@ -538,10 +530,8 @@ export function HabitTracker() {
               </button>
 
               <div
-                className={`overflow-hidden transition-all duration-300 ${
-                  isOpen
-                    ? 'max-h-[40rem] opacity-100 px-2 pb-2 mt-0.5'
-                    : 'max-h-0 opacity-0 px-2 pb-0 mt-0 pointer-events-none'
+                className={`overflow-hidden ${
+                  isOpen ? 'max-h-[40rem] opacity-100 px-2 pb-2' : 'max-h-0 opacity-0 px-2 pb-0 pointer-events-none'
                 }`}
               >
                 <div className="pt-1.5">
@@ -552,20 +542,6 @@ export function HabitTracker() {
                       }}
                       className="relative space-y-1.5"
                     >
-                      {isTrackerFocused &&
-                      isSelectedHabit &&
-                      isOpen &&
-                      selectedChecklistIndex !== undefined &&
-                      selectedChecklistIndex < habit.checklist.length &&
-                      checklistHighlightRect ? (
-                        <div
-                          className="pointer-events-none absolute left-0 right-0 rounded-md bg-black/[0.04] transition-all duration-200 ease-out"
-                          style={{
-                            top: checklistHighlightRect.top,
-                            height: checklistHighlightRect.height,
-                          }}
-                        />
-                      ) : null}
                       {habit.checklist.map((item, checklistIndex) => {
                         const checked = checkedToday.has(item)
                         return (
@@ -577,7 +553,7 @@ export function HabitTracker() {
                             className="relative z-[1]"
                           >
                             <label
-                              className={`flex items-center gap-2 text-[15px] leading-7 cursor-pointer rounded-md px-1 ${
+                              className={`flex items-center gap-2 text-[15px] leading-7 cursor-pointer rounded-md px-1 py-0.5 ${
                                 checked ? 'text-black/90' : 'text-black/70'
                               }`}
                             >
@@ -592,6 +568,20 @@ export function HabitTracker() {
                           </li>
                         )
                       })}
+                      {isTrackerFocused &&
+                      isSelectedHabit &&
+                      isOpen &&
+                      selectedChecklistIndex !== undefined &&
+                      selectedChecklistIndex < habit.checklist.length &&
+                      checklistHighlightRect ? (
+                        <div
+                          className="pointer-events-none absolute left-0 right-0 !mt-0 rounded-md bg-black/[0.04] transition-all duration-200 ease-out"
+                          style={{
+                            top: checklistHighlightRect.top,
+                            height: checklistHighlightRect.height,
+                          }}
+                        />
+                      ) : null}
                     </ul>
 
                     <div className="mt-3 flex items-center gap-3">
