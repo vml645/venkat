@@ -31,7 +31,6 @@ const MOTION = {
 
 const SYNC_ENDPOINT = '/api/vx7a9d2'
 const SAVE_DEBOUNCE_MS = 350
-const LOCAL_CACHE_KEY = 'venkat:hidden:habit-store:v1'
 
 const FITNESS_HABIT_ID = 'fitness'
 const FITNESS_STRETCH_ITEM = 'Daily Stretching'
@@ -129,18 +128,6 @@ export function HabitTracker() {
     let mounted = true
 
     async function loadStore() {
-      const localRaw = window.localStorage.getItem(LOCAL_CACHE_KEY)
-      if (localRaw) {
-        try {
-          const localStore = normalizeHabitStore(JSON.parse(localRaw))
-          if (mounted) {
-            setStore(localStore)
-            setLastSyncedPayload(JSON.stringify(localStore))
-            setIsLoaded(true)
-          }
-        } catch {}
-      }
-
       try {
         const response = await fetch(SYNC_ENDPOINT, {
           method: 'GET',
@@ -159,7 +146,6 @@ export function HabitTracker() {
         const normalizedPayload = JSON.stringify(normalized)
         setStore(normalized)
         setLastSyncedPayload(normalizedPayload)
-        window.localStorage.setItem(LOCAL_CACHE_KEY, normalizedPayload)
       } catch {
         if (!mounted) {
           return
@@ -169,7 +155,6 @@ export function HabitTracker() {
         const fallbackPayload = JSON.stringify(fallback)
         setStore(fallback)
         setLastSyncedPayload(fallbackPayload)
-        window.localStorage.setItem(LOCAL_CACHE_KEY, fallbackPayload)
       } finally {
         if (mounted) {
           setIsLoaded(true)
@@ -209,7 +194,6 @@ export function HabitTracker() {
             throw new Error('Failed to save hidden tracker store')
           }
           setLastSyncedPayload(serialized)
-          window.localStorage.setItem(LOCAL_CACHE_KEY, serialized)
         } catch {}
       })()
     }, SAVE_DEBOUNCE_MS)

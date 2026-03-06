@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import { cookies } from 'next/headers'
+import Link from 'next/link'
+import { cookies, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { SidebarLayout } from '@/components/layout/SidebarLayout'
-import { HabitTracker } from '@/components/habits/HabitTracker'
 import {
   HIDDEN_TAB_COOKIE,
   HIDDEN_TAB_PATH,
@@ -12,6 +12,12 @@ import {
   isSessionTokenValid,
   passwordIsConfigured,
 } from '@/lib/hiddenTabAuth'
+import {
+  checkHiddenTabUnlockRateLimit,
+  clearHiddenTabUnlockFailures,
+  hiddenTabRateLimitIdentifier,
+  registerHiddenTabUnlockFailure,
+} from '@/lib/hiddenTabRateLimit'
 
 export const metadata: Metadata = {
   title: 'Venkat Arun',
@@ -29,11 +35,24 @@ async function unlockHiddenTab(formData: FormData) {
   'use server'
 
   const password = String(formData.get('password') ?? '')
+  const requestHeaders = await headers()
+  const rateLimitId = hiddenTabRateLimitIdentifier({
+    forwardedFor: requestHeaders.get('x-forwarded-for'),
+    realIp: requestHeaders.get('x-real-ip'),
+    userAgent: requestHeaders.get('user-agent'),
+  })
+  const rateLimit = await checkHiddenTabUnlockRateLimit(rateLimitId)
+
+  if (!rateLimit.allowed) {
+    redirect(`${HIDDEN_TAB_PATH}?error=rate_limit`)
+  }
 
   if (!isPasswordMatch(password)) {
+    await registerHiddenTabUnlockFailure(rateLimitId)
     redirect(`${HIDDEN_TAB_PATH}?error=1`)
   }
 
+  await clearHiddenTabUnlockFailures(rateLimitId)
   const cookieStore = await cookies()
   cookieStore.set(HIDDEN_TAB_COOKIE, createSessionToken(), hiddenTabCookieOptions())
   redirect(HIDDEN_TAB_PATH)
@@ -48,7 +67,7 @@ async function lockHiddenTab() {
 }
 
 type HiddenTabPageProps = {
-  searchParams: Promise<{ error?: string }>
+  searchParams: Promise<{ error?: '1' | 'rate_limit' }>
 }
 
 export default async function HiddenTabPage({ searchParams }: HiddenTabPageProps) {
@@ -88,8 +107,9 @@ export default async function HiddenTabPage({ searchParams }: HiddenTabPageProps
                   enter
                 </button>
               </div>
-              {error ? (
-                <p className="text-sm text-red-600">Incorrect password.</p>
+              {error === '1' ? <p className="text-sm text-red-600">Incorrect password.</p> : null}
+              {error === 'rate_limit' ? (
+                <p className="text-sm text-red-600">Too many attempts. Please wait before trying again.</p>
               ) : null}
             </form>
           </>
@@ -97,18 +117,33 @@ export default async function HiddenTabPage({ searchParams }: HiddenTabPageProps
 
         {passwordIsConfigured() && hasAccess && (
           <>
-            <div className="max-w-[34rem] pr-2 flex items-center justify-between gap-3">
-              <h1 className="text-lg font-medium">habit tracker</h1>
-              <form action={lockHiddenTab}>
-                <button
-                  type="submit"
-                  className="text-sm text-black/45 hover:text-black/75 transition-colors"
+            <div className="max-w-[34rem] pr-2 space-y-4">
+              <div className="flex items-center justify-between gap-3">
+                <h1 className="text-lg font-medium">Private Menu</h1>
+                <form action={lockHiddenTab}>
+                  <button
+                    type="submit"
+                    className="text-sm text-black/45 hover:text-black/75 transition-colors"
+                  >
+                    Lock
+                  </button>
+                </form>
+              </div>
+              <nav className="space-y-2">
+                <Link
+                  href={`${HIDDEN_TAB_PATH}/habits`}
+                  className="block rounded-lg px-3 py-2 no-underline text-black/75 hover:text-black hover:bg-black/[0.04] transition-colors"
                 >
-                  Lock tab
-                </button>
-              </form>
+                  Habit Tracker
+                </Link>
+                <Link
+                  href={`${HIDDEN_TAB_PATH}/portfolio`}
+                  className="block rounded-lg px-3 py-2 no-underline text-black/75 hover:text-black hover:bg-black/[0.04] transition-colors"
+                >
+                  Portfolio Positions
+                </Link>
+              </nav>
             </div>
-            <HabitTracker />
           </>
         )}
       </div>
