@@ -205,7 +205,7 @@ export default function BooksPage() {
         stage >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       } ${reducedMotion ? 'duration-0' : ''}`}>books i have read from Jan 1st 2026.</p>
 
-      <div className="books-interaction mt-9 space-y-14">
+      <div className="books-interaction mt-9 space-y-8">
         <BookSection
           id="reading-books"
           title="reading"
