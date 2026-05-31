@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { PerspectiveBook } from '@/styles/components/perspective-book'
 import { SidebarLayout } from "@/components/layout/SidebarLayout"
 import { useStagedAnimation } from '@/components/animation/useStagedAnimation'
@@ -16,6 +17,27 @@ import { useStagedAnimation } from '@/components/animation/useStagedAnimation'
 const TIMING = {
   subtitleAppear: 0,
   booksAppear: 100,
+}
+
+const BOOKS_PER_ROW = 3
+const BOOK_WIDTH = 124
+const BOOK_HEIGHT = 186
+const GRID_GAP = 24
+
+// Match the layout's `lg` breakpoint (1024px). Below it, the sidebar collapses
+// and we cap each row to a single book.
+function useBooksPerRow() {
+  const [booksPerRow, setBooksPerRow] = useState(BOOKS_PER_ROW)
+
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px)')
+    const update = () => setBooksPerRow(query.matches ? BOOKS_PER_ROW : 1)
+    update()
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
+
+  return booksPerRow
 }
 
 const readBooks = [
@@ -57,24 +79,38 @@ type Book = {
 
 function BookRow({
   book,
+  index,
   reducedMotion,
+  setActiveIndex,
 }: {
   book: Book
+  index: number
   reducedMotion: boolean
+  setActiveIndex: (index: number | null) => void
 }) {
   return (
     <li
-      className={`transition-all duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1.08)] ${
+      className={`book-item relative z-10 transition-[filter,opacity,transform] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] ${
         reducedMotion ? 'duration-0' : ''
       }`}
     >
-      <PerspectiveBook size="cover" className={book.coverClass}>
-        <img
-          src={book.coverSrc}
-          alt={`${book.title} cover`}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      </PerspectiveBook>
+      <div
+        tabIndex={0}
+        aria-label={`${book.title} by ${book.author}`}
+        className="book-hitbox group/book inline-flex outline-none"
+        onBlur={() => setActiveIndex(null)}
+        onFocus={() => setActiveIndex(index)}
+        onMouseEnter={() => setActiveIndex(index)}
+        onMouseLeave={() => setActiveIndex(null)}
+      >
+        <PerspectiveBook size="cover" className={book.coverClass}>
+          <img
+            src={book.coverSrc}
+            alt={`${book.title} cover`}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </PerspectiveBook>
+      </div>
     </li>
   )
 }
@@ -85,13 +121,25 @@ function BookSection({
   books,
   stage,
   reducedMotion,
+  booksPerRow,
 }: {
   id: string
   title: string
   books: Book[]
   stage: number
   reducedMotion: boolean
+  booksPerRow: number
 }) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const activeBook = activeIndex === null ? null : books[activeIndex]
+  const activeRow = activeIndex === null ? 0 : Math.floor(activeIndex / booksPerRow)
+  const columnCount = Math.min(books.length, booksPerRow)
+  const booksInActiveRow =
+    activeIndex === null
+      ? columnCount
+      : Math.min(booksPerRow, books.length - activeRow * booksPerRow)
+  const captionLeft = booksInActiveRow * (BOOK_WIDTH + GRID_GAP)
+
   return (
     <section
       aria-labelledby={id}
@@ -103,14 +151,43 @@ function BookSection({
         <h2 id={id} className="text-[14px] font-medium text-black/55">{title}</h2>
       </div>
 
-      <ol className="grid grid-cols-[repeat(auto-fit,124px)] gap-6">
-        {books.map((book) => (
+      <ol
+        className="relative grid gap-6"
+        style={{
+          gridTemplateColumns: `repeat(${columnCount}, ${BOOK_WIDTH}px)`,
+        }}
+      >
+        {books.map((book, index) => (
           <BookRow
             key={book.title}
             book={book}
+            index={index}
             reducedMotion={reducedMotion}
+            setActiveIndex={setActiveIndex}
           />
         ))}
+        <div
+          className={`book-caption pointer-events-none absolute left-0 z-50 w-52 translate-x-1 opacity-0 transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+            activeBook ? 'translate-x-0 opacity-100' : ''
+          } ${reducedMotion ? 'duration-0' : ''}`}
+          style={{ top: `${activeRow * (BOOK_HEIGHT + GRID_GAP)}px`, left: `${captionLeft}px` }}
+        >
+          {activeBook && (
+            <>
+              <p
+                className="overflow-hidden text-[15px] font-medium leading-snug text-foreground"
+                style={{
+                  display: '-webkit-box',
+                  WebkitBoxOrient: 'vertical',
+                  WebkitLineClamp: 4,
+                }}
+              >
+                {activeBook.title}
+              </p>
+              <p className="mt-2 text-[13px] leading-snug text-muted-foreground">{activeBook.author}</p>
+            </>
+          )}
+        </div>
       </ol>
     </section>
   )
@@ -120,6 +197,7 @@ export default function BooksPage() {
   const { stage, reducedMotion } = useStagedAnimation({
     timing: [TIMING.subtitleAppear, TIMING.booksAppear],
   })
+  const booksPerRow = useBooksPerRow()
 
   return (
     <SidebarLayout currentPage="books">
@@ -127,13 +205,14 @@ export default function BooksPage() {
         stage >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       } ${reducedMotion ? 'duration-0' : ''}`}>books i have read from Jan 1st 2026.</p>
 
-      <div className="mt-9 space-y-11">
+      <div className="books-interaction mt-9 space-y-14">
         <BookSection
           id="reading-books"
           title="reading"
           books={readingBooks}
           stage={stage}
           reducedMotion={reducedMotion}
+          booksPerRow={booksPerRow}
         />
 
         <BookSection
@@ -142,6 +221,7 @@ export default function BooksPage() {
           books={readBooks}
           stage={stage}
           reducedMotion={reducedMotion}
+          booksPerRow={booksPerRow}
         />
       </div>
     </SidebarLayout>

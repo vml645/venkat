@@ -16,6 +16,7 @@ interface PerspectiveBookProps {
   className?: string;
   children: React.ReactNode;
   textured?: boolean;
+  interactive?: boolean;
 }
 
 export function PerspectiveBook({
@@ -23,13 +24,14 @@ export function PerspectiveBook({
   className = "",
   children,
   textured = false,
+  interactive = true,
 }: PerspectiveBookProps) {
   const defaultColorClasses =
     'bg-neutral-100 dark:bg-[#1f1f1f] dark:before:content-[""] dark:before:bg-gradient-to-b dark:before:from-[#ffffff1a] dark:before:to-transparent dark:before:absolute dark:before:inset-0 dark:before:rounded-[inherit] text-primary';
 
   return (
     <div
-      className={`z-10 group [perspective:900px] w-min h-min`}
+      className={`isolate z-10 group [perspective:900px] w-min h-min`}
     >
       <div
         style={{
@@ -37,7 +39,9 @@ export function PerspectiveBook({
           aspectRatio: sizeMap[size].aspectRatio,
           borderRadius: "6px 4px 4px 6px",
         }}
-        className={`transition-transform duration-300 ease-out relative [transform-style:preserve-3d] [transform:rotateY(0deg)] group-hover:[transform:rotateY(-20deg)] group-hover:scale-[1.066] group-hover:-translate-x-1`}
+        className={`transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] relative [transform-style:preserve-3d] [transform:rotateY(0deg)] ${
+          interactive ? 'group-hover:[transform:rotateY(-20deg)] group-hover:scale-[1.066] group-hover:-translate-x-1' : ''
+        }`}
       >
         {/* Front Side */}
         <div
@@ -76,7 +80,7 @@ export function PerspectiveBook({
 
         {/* Spine */}
         <div
-          className="absolute left-0 bg-[linear-gradient(90deg,#eaeaea_0%,#0000_80%),linear-gradient(#fff,#fafafa)]"
+          className="book-spine absolute left-0 bg-[linear-gradient(90deg,#eaeaea_0%,#0000_80%),linear-gradient(#fff,#fafafa)]"
           style={{
             top: "3px",
             bottom: "3px",
@@ -91,7 +95,7 @@ export function PerspectiveBook({
         {/* Back Side */}
         <div
           className={cn(
-            `absolute inset-y-0 overflow-hidden size-full left-0 flex flex-col justify-end p-[12%]`,
+            `book-back absolute inset-y-0 overflow-hidden size-full left-0 flex flex-col justify-end p-[12%]`,
             className || defaultColorClasses,
           )}
           style={{

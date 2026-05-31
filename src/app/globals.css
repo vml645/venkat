@@ -37,3 +37,35 @@
     scroll-behavior: auto !important;
   }
 }
+
+@media (hover: hover) and (pointer: fine) {
+  .books-interaction:has(.book-hitbox:hover) .book-item:not(:has(.book-hitbox:hover)),
+  .books-interaction:has(.book-hitbox:focus-visible) .book-item:not(:has(.book-hitbox:focus-visible)) {
+    filter: blur(1px);
+    opacity: 0.68;
+    transform: scale(0.998);
+  }
+
+  .books-interaction:has(.book-hitbox:hover) .book-item:not(:has(.book-hitbox:hover)) .book-spine,
+  .books-interaction:has(.book-hitbox:hover) .book-item:not(:has(.book-hitbox:hover)) .book-back,
+  .books-interaction:has(.book-hitbox:focus-visible) .book-item:not(:has(.book-hitbox:focus-visible)) .book-spine,
+  .books-interaction:has(.book-hitbox:focus-visible) .book-item:not(:has(.book-hitbox:focus-visible)) .book-back {
+    opacity: 0;
+  }
+
+  .book-hitbox:not(:hover):not(:focus-visible) .book-spine,
+  .book-hitbox:not(:hover):not(:focus-visible) .book-back {
+    opacity: 0;
+  }
+
+  .book-item:has(.book-hitbox:hover),
+  .book-item:has(.book-hitbox:focus-visible) {
+    z-index: 40;
+  }
+
+  .book-item:has(.book-hitbox:hover) .book-caption,
+  .book-item:has(.book-hitbox:focus-visible) .book-caption {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
