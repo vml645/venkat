@@ -3,11 +3,11 @@
 import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
 
-type NavPage = 'about' | 'projects' | 'social'
+type NavPage = 'about' | 'books' | 'social'
 
 const navLinks = [
   { href: '/about', label: 'about', external: false },
-  { href: '/projects', label: 'projects', external: false },
+  { href: '/books', label: 'books', external: false },
   { href: 'https://www.ycombinator.com/companies/datafruit', label: 'datafruit', external: true },
   { href: '/social', label: 'social', external: false },
 ]
@@ -25,7 +25,7 @@ export function SidebarLayout({ children, currentPage }: SidebarLayoutProps) {
   return (
     <div className="min-h-screen flex">
       {/* Mobile Header */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 bg-background z-50 px-6 py-4 border-b border-border">
+      <header className="lg:hidden fixed top-0 left-0 right-0 bg-background z-50 px-6 py-4">
         <Link href="/" className="text-lg font-semibold no-underline hover:opacity-100 whitespace-nowrap block">
           Venkat Arun
         </Link>
