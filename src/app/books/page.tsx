@@ -63,6 +63,12 @@ const readBooks = [
 
 const readingBooks = [
   {
+    title: "The Drunkard's Walk: How Randomness Rules Our Lives",
+    author: 'Leonard Mlodinow',
+    coverClass: 'bg-[#f1efe9]',
+    coverSrc: '/books/drunkards-walk-ol.jpg',
+  },
+  {
     title: 'The Art of Doing Science and Engineering',
     author: 'Richard W. Hamming',
     coverClass: 'bg-[#354331]',
