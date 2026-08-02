@@ -42,6 +42,18 @@ function useBooksPerRow() {
 
 const readBooks = [
   {
+    title: "Poor Charlie's Almanack: The Essential Wit and Wisdom of Charles T. Munger",
+    author: 'Charles T. Munger, edited by Peter D. Kaufman',
+    coverClass: 'bg-[#18185e]',
+    coverSrc: '/books/poor-charlies-almanack.jpg',
+  },
+  {
+    title: 'Zero to One: Notes on Startups, or How to Build the Future',
+    author: 'Peter Thiel with Blake Masters',
+    coverClass: 'bg-[#69a0c7]',
+    coverSrc: '/books/zero-to-one.jpg',
+  },
+  {
     title: "Creative Selection: Inside Apple's Design Process During the Golden Age of Steve Jobs",
     author: 'Ken Kocienda',
     coverClass: 'bg-[#d7d8d3]',
@@ -62,6 +74,12 @@ const readBooks = [
 ]
 
 const readingBooks = [
+  {
+    title: 'Maintenance: Of Everything, Part One',
+    author: 'Stewart Brand',
+    coverClass: 'bg-[#e3dfc5]',
+    coverSrc: '/books/maintenance-of-everything.jpg',
+  },
   {
     title: "The Drunkard's Walk: How Randomness Rules Our Lives",
     author: 'Leonard Mlodinow',
