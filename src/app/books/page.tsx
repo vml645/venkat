@@ -42,6 +42,12 @@ function useBooksPerRow() {
 
 const readBooks = [
   {
+    title: 'Maintenance: Of Everything, Part One',
+    author: 'Stewart Brand',
+    coverClass: 'bg-[#e3dfc5]',
+    coverSrc: '/books/maintenance-of-everything.jpg',
+  },
+  {
     title: "Poor Charlie's Almanack: The Essential Wit and Wisdom of Charles T. Munger",
     author: 'Charles T. Munger, edited by Peter D. Kaufman',
     coverClass: 'bg-[#18185e]',
@@ -75,10 +81,10 @@ const readBooks = [
 
 const readingBooks = [
   {
-    title: 'Maintenance: Of Everything, Part One',
-    author: 'Stewart Brand',
-    coverClass: 'bg-[#e3dfc5]',
-    coverSrc: '/books/maintenance-of-everything.jpg',
+    title: 'The Infinity Machine: Demis Hassabis, DeepMind, and the Quest for Superintelligence',
+    author: 'Sebastian Mallaby',
+    coverClass: 'bg-[#31599c]',
+    coverSrc: '/books/the-infinity-machine.jpg',
   },
   {
     title: "The Drunkard's Walk: How Randomness Rules Our Lives",
