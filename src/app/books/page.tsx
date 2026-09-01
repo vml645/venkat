@@ -42,6 +42,12 @@ function useBooksPerRow() {
 
 const readBooks = [
   {
+    title: 'DTV',
+    author: 'Michael Moritz',
+    coverClass: 'bg-[#3b5a52]',
+    coverSrc: '/books/dtv.jpg',
+  },
+  {
     title: 'Maintenance: Of Everything, Part One',
     author: 'Stewart Brand',
     coverClass: 'bg-[#e3dfc5]',
