@@ -83,9 +83,27 @@ const readBooks = [
     coverClass: 'bg-[#2b3e9d]',
     coverSrc: '/books/prince-ol.jpg',
   },
+  {
+    title: 'The Count of Monte Cristo',
+    author: 'Alexandre Dumas',
+    coverClass: 'bg-[#efe6d0]',
+    coverSrc: '/books/monte-cristo-ol.jpg',
+  },
+  {
+    title: 'The Art of Doing Science and Engineering',
+    author: 'Richard W. Hamming',
+    coverClass: 'bg-[#354331]',
+    coverSrc: '/books/hamming-ol.jpg',
+  },
 ]
 
 const readingBooks = [
+  {
+    title: 'Abundance',
+    author: 'Ezra Klein and Derek Thompson',
+    coverClass: 'bg-[#f6f3ea]',
+    coverSrc: '/books/abundance.jpg',
+  },
   {
     title: 'The Infinity Machine: Demis Hassabis, DeepMind, and the Quest for Superintelligence',
     author: 'Sebastian Mallaby',
@@ -97,12 +115,6 @@ const readingBooks = [
     author: 'Leonard Mlodinow',
     coverClass: 'bg-[#f1efe9]',
     coverSrc: '/books/drunkards-walk-ol.jpg',
-  },
-  {
-    title: 'The Art of Doing Science and Engineering',
-    author: 'Richard W. Hamming',
-    coverClass: 'bg-[#354331]',
-    coverSrc: '/books/hamming-ol.jpg',
   },
 ]
 
