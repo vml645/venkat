@@ -95,6 +95,12 @@ const readBooks = [
     coverClass: 'bg-[#354331]',
     coverSrc: '/books/hamming-ol.jpg',
   },
+  {
+    title: 'The Infinity Machine: Demis Hassabis, DeepMind, and the Quest for Superintelligence',
+    author: 'Sebastian Mallaby',
+    coverClass: 'bg-[#31599c]',
+    coverSrc: '/books/the-infinity-machine.jpg',
+  },
 ]
 
 const readingBooks = [
@@ -103,12 +109,6 @@ const readingBooks = [
     author: 'Ezra Klein and Derek Thompson',
     coverClass: 'bg-[#f6f3ea]',
     coverSrc: '/books/abundance.jpg',
-  },
-  {
-    title: 'The Infinity Machine: Demis Hassabis, DeepMind, and the Quest for Superintelligence',
-    author: 'Sebastian Mallaby',
-    coverClass: 'bg-[#31599c]',
-    coverSrc: '/books/the-infinity-machine.jpg',
   },
   {
     title: "The Drunkard's Walk: How Randomness Rules Our Lives",
